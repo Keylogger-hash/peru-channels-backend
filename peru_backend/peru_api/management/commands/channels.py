@@ -1,39 +1,61 @@
-import requests
-import json
-from django.core.management.base import BaseCommand
-from peru_api.models import Channel, Category
-
-
-class Command(BaseCommand):
-    help = "Channels write"
-
-    def handle(self, *args, **options):
-        r = requests.get("https://iptv-org.github.io/api/channels.json")
-
-        with open("channels.json", "w+") as f:
-            data = json.dumps(r.json())
-            f.write(data)
-        with open("channels.json", "r") as f:
-            channels_objects = []
-            data = json.loads(f.read())
-            for item in data:
-                categories = item["categories"]
-                category_objects = Category.objects.filter(category_id__in=categories)
-                print(categories)
-                print(category_objects)
-                channel_object = Channel.objects.create(
-                    channel_name=item["name"],
-                    channel_id=item["id"],
-                    owners=";".join(item["owners"]),
-                    country=item["country"],
-                    lang=",".join(item["languages"]),
-                    website=item["website"],
-                    logo=item["logo"],
-                )
-                if category_objects:
-                    for category_object in category_objects:
-                        channel_object.category.add(category_object)
-                #xchannels_objects.append(channel_object)
+# with open(settings.DATA_DIR / "categories.json", "r") as f:
+#     category_objects = []
+#     data = json.loads(f.read())
+#     for item in data:
+#         category_object = Category(
+#             category_id=item["id"], category_name=item["name"]
+#         )
+#         category_objects.append(category_object)
+#     Category.objects.bulk_create(category_objects)
+# with open(settings.DATA_DIR / "streams.json", "w+") as f:
+#     with open(
+#         "/Users/pavelmorozov/Downloads/Rus18.m3u", "r"
+#     ) as playlist_file:
+#         streams_data = streams_request.json()
+#         content = playlist_file.read()
+#         russian_playlist = playlist.loads(content)
+#         channels = russian_playlist.get_channels()
+#         for channel in channels:
+#             channel_name = channel.name
+#             channel_id = (
+#                 channel.attributes.get("tvg-id")
+#                 if channel.attributes.get("tvg-id")
+#                 else channel.name
+#             )
+#             channel_url = channel.url
+#             channel = channel.attributes.get("tvg-logo")
+#             rus_streams_data = {
+#                 "channel": channel_id,
+#                 "url": channel_url,
+#                 "timeshift": None,
+#                 "user_agent": None,
+#                 "http_referrer": None,
+#             }
+#             streams_data.append(rus_streams_data)
+#             rus_channels_data = {
+#                 "id": channel_id,
+#                 "name": channel_name,
+#                 "alt_names": [],
+#                 "network": None,
+#                 "owners": [],
+#                 "country": "DO",
+#                 "subdivision": None,
+#                 "city": "Santo Domingo",
+#                 "broadcast_area": ["c/DO"],
+#                 "languages": ["ru"],
+#                 "categories": ["general"],
+#                 "is_nsfw": False,
+#                 "launched": None,
+#                 "closed": None,
+#                 "replaced_by": None,
+#                 "website": "https://example.com",
+#                 "logo": "https://i.imgur.com/7oNe8xj.png",
+#             }
+#         f.write(json.dumps(data))
+#     with open(settings.DATA_DIR / "channels.json", "w+") as f:
+#         data = json.dumps(channels_request.json())
+#         f.write(data)
+# xchannels_objects.append(channel_object)
 
 
 # def write():

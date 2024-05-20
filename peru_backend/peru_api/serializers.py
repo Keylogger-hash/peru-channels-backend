@@ -1,23 +1,27 @@
 from rest_framework import serializers
-from .models import Channel, Feedback, Tournament, Category
+from .models import Channel, Feedback, Category, Playlist
 from django_countries.serializers import CountryFieldMixin
+from django_countries.fields import CountryField
 
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"
+
+class PlaylistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = ["id","name"]
 
 class ChannelSerializer(CountryFieldMixin, serializers.ModelSerializer):
-    class Meta:
-        model = Channel
-        fields = "__all__"
-
-
-class ChannelStreamSerializer(CountryFieldMixin, serializers.ModelSerializer):
-    streams = serializers.ListField(
-        child=serializers.URLField(), read_only=True
-    )
+    playlist = PlaylistSerializer(read_only=True)
+    categories = CategorySerializer(many=True, read_only=True, source='category')
 
     class Meta:
         model = Channel
-        fields = "__all__"
-
+        exclude = ['category']
 
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,13 +29,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TournamentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tournament
-        fields = "__all__"
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = "__all__"
+class CountrySerializer(serializers.Serializer):
+    country = CountryField()

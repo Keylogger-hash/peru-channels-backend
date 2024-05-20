@@ -6,7 +6,10 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("peru_api", "0004_remove_channel_channel_preview_channel_channel_id_and_more"),
+        (
+            "peru_api",
+            "0004_remove_channel_channel_preview_channel_channel_id_and_more",
+        ),
     ]
 
     operations = [

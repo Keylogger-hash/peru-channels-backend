@@ -5,8 +5,6 @@ from .views import (
     ChannelDetail,
     FeedbackList,
     FeedbackDetail,
-    TournamentDetail,
-    TournamentList,
     CategoryDetail,
     CategoryList,
     IndexAPI,
@@ -20,12 +18,6 @@ urlpatterns = [
     path("feedback/", FeedbackList.as_view(), name="feedback"),
     path(
         "feedback/<int:pk>/", FeedbackDetail.as_view(), name="feedback-detail"
-    ),
-    path("tournament/", TournamentDetail.as_view(), name="tournament"),
-    path(
-        "tournament/<int:pk>/",
-        TournamentList.as_view(),
-        name="tournament-detail",
     ),
     path("category/", CategoryList.as_view(), name="category"),
     path(
