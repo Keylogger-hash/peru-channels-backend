@@ -12,7 +12,7 @@ class Feedback(models.Model):
 
     class Meta:
         ordering = ["created_at"]
-    
+
     def __str__(self):
         return self.name
 
@@ -23,6 +23,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category_name
+
 
 class Playlist(models.Model):
     name = models.CharField(max_length=255)
@@ -39,8 +40,10 @@ class Channel(models.Model):
     category = models.ManyToManyField(
         Category,
     )
-    url = models.URLField(null=True,blank=True)
-    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE,null=True,blank=True)  
+    url = models.URLField(null=True, blank=True)
+    playlist = models.ForeignKey(
+        Playlist, on_delete=models.CASCADE, null=True, blank=True
+    )
     logo = models.URLField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

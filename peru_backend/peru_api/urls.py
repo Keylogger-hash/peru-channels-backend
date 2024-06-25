@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import (
     ChannelList,
+    PlaylistList,
     ChannelDetail,
     FeedbackList,
     FeedbackDetail,
@@ -23,4 +24,5 @@ urlpatterns = [
     path(
         "category/<int:pk>/", CategoryDetail.as_view(), name="category-detail"
     ),
+    path("playlist/", PlaylistList.as_view(), name="playlist"),
 ]

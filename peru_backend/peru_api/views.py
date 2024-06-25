@@ -3,12 +3,13 @@ from .serializers import (
     ChannelSerializer,
     FeedbackSerializer,
     CategorySerializer,
-    CountrySerializer
+    CountrySerializer,
+    PlaylistSerializer,
 )
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Channel, Feedback, Category
+from .models import Channel, Feedback, Category, Playlist
 from rest_framework import mixins
 from .pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
@@ -33,7 +34,7 @@ class ChannelList(
     pagination_class = PageNumberPagination
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ["channel_id", "channel_name"]
-    filterset_fields = ["category","playlist"]
+    filterset_fields = ["category", "playlist"]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -53,7 +54,6 @@ class ChannelDetail(
 
     def get(self, request, pk, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
-
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -141,3 +141,13 @@ class CountryList(
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class PlaylistList(
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
+):
+    queryset = Playlist.objects.all()
+    serializer_class = PlaylistSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
