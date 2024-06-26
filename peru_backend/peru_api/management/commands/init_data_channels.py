@@ -135,8 +135,6 @@ class PlaylistDatabaseReader:
     @staticmethod
     def read_playlists_from_database() -> Playlist:
         streams = Playlist.objects.all()
-        if not streams:
-            raise PlaylistEmptyError()
         return streams
 
     @staticmethod

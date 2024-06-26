@@ -9,11 +9,13 @@ from .views import (
     CategoryDetail,
     CategoryList,
     IndexAPI,
+    MainPageAPI
 )
 
 
 urlpatterns = [
     path("", IndexAPI.as_view(), name="index"),
+    path("live/", MainPageAPI.as_view(), name='live-page'),
     path("channels/", ChannelList.as_view(), name="channel"),
     path("channels/<int:pk>/", ChannelDetail.as_view(), name="channel-detail"),
     path("feedback/", FeedbackList.as_view(), name="feedback"),

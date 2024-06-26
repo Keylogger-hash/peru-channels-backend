@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from .models import Channel, Feedback, Category, Playlist
 from rest_framework import mixins
 from .pagination import PageNumberPagination
+import json
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 import json
@@ -24,6 +25,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 class IndexAPI(APIView):
     def get(self, request, *args, **kwargs):
         return Response("OK")
+
+
+class MainPageAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        return Response({
+            "live": "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+        })
 
 
 class ChannelList(
